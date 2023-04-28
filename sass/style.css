@@ -1,11 +1,64 @@
 ._wrapper {
-  margin: 0 auto;
+  margin: 0;
   padding: 0;
   background-color: #e4e4e4;
 }
 
-.header {
+.heading {
   text-align: center;
+  color: #364e53;
+  font-size: 2em;
+  font-weight: 600;
+}
+
+.textarea {
+  display: block;
+  margin: auto;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  padding: 5%;
+  width: 60%;
+  border: 2px solid #364e53;
+  border-radius: 10px;
+}
+
+.keyboard__container {
+  margin: 0 5% auto;
+  background-color: #d1bbb0;
+  border: 1px solid #8a5034;
+  padding: 5px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.keyboard__key {
+  height: 50px;
+  width: 60px;
+  max-width: 90px;
+  margin: 2px;
+  border-radius: 4px;
+  border: none;
+  background-color: #8a5034;
+  color: #ffffff;
+  font-size: 1rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: top;
+  padding: 0;
+}
+.keyboard__key:active {
+  background-color: #364e53;
+}
+
+.keyboard__key_long {
+  width: 12%;
+}
+
+.keyboard__key_super-long {
+  width: 36%;
+  max-width: 350px;
 }
 
 /*# sourceMappingURL=style.css.map */
