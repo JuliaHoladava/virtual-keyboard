@@ -16,14 +16,16 @@
   margin: auto;
   margin-top: 30px;
   margin-bottom: 20px;
-  padding: 5%;
-  width: 60%;
+  padding: 20px;
+  width: 900px;
+  min-height: 80px;
   border: 2px solid #364e53;
   border-radius: 10px;
 }
 
 .keyboard__container {
-  margin: 0 5% auto;
+  margin: 0 auto;
+  width: 1000px;
   background-color: #d1bbb0;
   border: 1px solid #8a5034;
   padding: 5px;
@@ -34,7 +36,6 @@
 .keyboard__key {
   height: 50px;
   width: 60px;
-  max-width: 90px;
   margin: 2px;
   border-radius: 4px;
   border: none;
@@ -61,8 +62,8 @@
 }
 
 .keyboard__key_super-long {
-  width: 36%;
-  max-width: 350px;
+  width: 38%;
+  max-width: 500px;
 }
 
 /*# sourceMappingURL=style.css.map */

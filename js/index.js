@@ -12,7 +12,7 @@ keyboard.className = 'keyboard__container';
 document.body.appendChild(keyboard);
 
 const keyboardKeysEn = [
-  { code: 'Escape', key: 'Esc' },
+  // { code: 'Escape', key: 'Esc' },
   { code: 'Backquote', key: '`' },
   { code: 'Digit1', key: '1' },
   { code: 'Digit2', key: '2' },
@@ -231,6 +231,9 @@ document.addEventListener('keydown', (event) => {
   if (keyElement) {
     keyElement.classList.add('highlight');
   }
+
+  if (!specialKey.includes(event.code))
+    printToInput(event.key);
 });
 
 document.addEventListener('keyup', (event) => {
