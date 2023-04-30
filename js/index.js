@@ -155,10 +155,10 @@ let isShiftPressed = false;
 keyboardKeysEn.forEach(key => {
   const keyElement = document.createElement('button');
   const addBreak = lineBreaks.includes(key.code);
+
   keyElement.classList.add('keyboard__key');
   keyElement.textContent = key.key;
   keyElement.dataset.code = key.code;
-  console.log(keyElement.dataset.code);
 
   switch(key.code) {
     case 'Backspace':
@@ -212,11 +212,19 @@ keyboardKeysEn.forEach(key => {
         isShiftPressed = true;
 
         keyElement.classList.toggle('highlight');
+        keyboard.querySelector(`button[data-code=ShiftRight]`).classList.toggle('highlight');
       })
       break;
 
     case 'ShiftRight':
       keyElement.classList.add('keyboard__key_long');
+
+      keyElement.addEventListener('click', () => {
+        isShiftPressed = true;
+
+        keyElement.classList.toggle('highlight');
+        keyboard.querySelector(`button[data-code=ShiftLeft]`).classList.toggle('highlight');
+      })
       break;
 
     default:
@@ -230,11 +238,12 @@ keyboardKeysEn.forEach(key => {
               printToUpperInput(key.key);
             }
           } else {
-            printToInput(key.key);
-          }
-          if (isShiftPressed) {
-            printToUpperInput(key.key);
-            toggleShift();
+            if (isShiftPressed) {
+              printToUpperInput(key.key);
+              toggleShift();
+            } else {
+              printToInput(key.key);
+            }
           }
         }
       })
@@ -282,4 +291,5 @@ const delToInput = () => {
 const toggleShift = () => {
   isShiftPressed = false;
   keyboard.querySelector(`button[data-code=ShiftLeft]`).classList.toggle('highlight');
+  keyboard.querySelector(`button[data-code=ShiftRight]`).classList.toggle('highlight');
 }
