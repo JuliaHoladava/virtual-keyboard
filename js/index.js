@@ -149,8 +149,8 @@ const lineBreaks = ['Backspace', 'Delete', 'Enter', 'ShiftRight'];
 const specialKey = ['Backspace', 'Delete', 'Enter', 'ShiftRight', 'ShiftLeft', 'Tab',
                     'Escape', 'CapsLock', 'ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft',
                     'ControlLeft', 'ControlRight', 'AltLeft', 'AltRight'];
-const isCapsPressed = false
-const isShiftPressed = false;
+let isCapsPressed = false;
+let isShiftPressed = false;
 
 keyboardKeysEn.forEach(key => {
   const keyElement = document.createElement('button');
@@ -179,7 +179,13 @@ keyboardKeysEn.forEach(key => {
       keyElement.classList.add('keyboard__key_long');
 
       keyElement.addEventListener('click', () => {
-        printToUpperInput();
+        if (!isCapsPressed) {
+          isCapsPressed = true;
+        } else {
+          isCapsPressed = false;
+        }
+
+        keyElement.classList.toggle('highlight');
       })
       break;
 
@@ -203,7 +209,9 @@ keyboardKeysEn.forEach(key => {
       keyElement.classList.add('keyboard__key_long');
 
       keyElement.addEventListener('click', () => {
-        printToUpperInput();
+        isShiftPressed = true;
+
+        keyElement.classList.toggle('highlight');
       })
       break;
 
@@ -213,8 +221,22 @@ keyboardKeysEn.forEach(key => {
 
     default:
       keyElement.addEventListener('click', (e) => {
-        if (!specialKey.includes(key.code))
-        printToInput(key.key);
+        if (!specialKey.includes(key.code)) {
+          if (isCapsPressed) {
+            if (isShiftPressed) {
+              printToInput(key.key);
+              toggleShift();
+            } else {
+              printToUpperInput(key.key);
+            }
+          } else {
+            printToInput(key.key);
+          }
+          if (isShiftPressed) {
+            printToUpperInput(key.key);
+            toggleShift();
+          }
+        }
       })
   }
 
@@ -249,10 +271,15 @@ const printToInput = (char) => {
 }
 
 const printToUpperInput = (char) => {
-  textarea.value += char.toUpperString();
+  textarea.value += char.toUpperCase();
 }
 
 const delToInput = () => {
   const value = textarea.value;
   textarea.value = value.substring(0, value.length - 1);
+}
+
+const toggleShift = () => {
+  isShiftPressed = false;
+  keyboard.querySelector(`button[data-code=ShiftLeft]`).classList.toggle('highlight');
 }
