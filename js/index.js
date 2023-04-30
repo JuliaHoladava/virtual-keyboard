@@ -149,12 +149,16 @@ const lineBreaks = ['Backspace', 'Delete', 'Enter', 'ShiftRight'];
 const specialKey = ['Backspace', 'Delete', 'Enter', 'ShiftRight', 'ShiftLeft', 'Tab',
                     'Escape', 'CapsLock', 'ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft',
                     'ControlLeft', 'ControlRight', 'AltLeft', 'AltRight'];
+const isCapsPressed = false
+const isShiftPressed = false;
 
 keyboardKeysEn.forEach(key => {
   const keyElement = document.createElement('button');
   const addBreak = lineBreaks.includes(key.code);
   keyElement.classList.add('keyboard__key');
   keyElement.textContent = key.key;
+  keyElement.dataset.code = key.code;
+  console.log(keyElement.dataset.code);
 
   switch(key.code) {
     case 'Backspace':
@@ -165,20 +169,42 @@ keyboardKeysEn.forEach(key => {
       })
       break;
 
+    case 'Tab':
+      keyElement.addEventListener('click', () => {
+        printToInput('\t');
+      })
+      break;
+
     case 'CapsLock':
       keyElement.classList.add('keyboard__key_long');
+
+      keyElement.addEventListener('click', () => {
+        printToUpperInput();
+      })
       break;
 
     case 'Space':
       keyElement.classList.add('keyboard__key_super-long');
+
+      keyElement.addEventListener('click', () => {
+        printToInput(' ');
+      })
       break;
 
     case 'Enter':
       keyElement.classList.add('keyboard__key_long');
+
+      keyElement.addEventListener('click', () => {
+        printToInput('\n');
+      })
       break;
 
     case 'ShiftLeft':
       keyElement.classList.add('keyboard__key_long');
+
+      keyElement.addEventListener('click', () => {
+        printToUpperInput();
+      })
       break;
 
     case 'ShiftRight':
@@ -197,14 +223,33 @@ keyboardKeysEn.forEach(key => {
   if (addBreak) {
     keyboard.appendChild(document.createElement('br'));
   }
-})
+});
+
+document.addEventListener('keydown', (event) => {
+  const keyElement = keyboard.querySelector(`button[data-code="${event.code}"]`);
+
+  if (keyElement) {
+    keyElement.classList.add('highlight');
+  }
+});
+
+document.addEventListener('keyup', (event) => {
+  const keyElement = keyboard.querySelector(`button[data-code="${event.code}"]`);
+
+  if (keyElement) {
+    keyElement.classList.toggle('highlight');
+  }
+});
 
 const printToInput = (char) => {
   textarea.value += char;
+}
+
+const printToUpperInput = (char) => {
+  textarea.value += char.toUpperString();
 }
 
 const delToInput = () => {
   const value = textarea.value;
   textarea.value = value.substring(0, value.length - 1);
 }
-
