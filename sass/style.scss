@@ -11,6 +11,13 @@
   font-weight: 600;
 }
 
+.p {
+  text-align: center;
+  color: #364e53;
+  font-size: 1em;
+  font-weight: 400;
+}
+
 .textarea {
   display: block;
   margin: auto;
@@ -33,19 +40,9 @@
   text-align: center;
 }
 
-// .keyboard__line {
-//   margin: auto;
-//   text-align: center;
-// }
-
-// .keyboard__keys {
-//   text-align: center;
-// }
-
 .keyboard__key {
   height: 50px;
   width: 60px;
-  // max-width: 90px;
   margin: 2px;
   border-radius: 4px;
   border: none;
@@ -73,6 +70,6 @@
 }
 
 .keyboard__key_super-long {
-  width: 38%;
+  width: 44%;
   max-width: 500px;
 }

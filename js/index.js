@@ -68,13 +68,14 @@ const keyboardKeysEn = [
   { code: 'ArrowUp', key: '↑' },
   { code: 'ShiftRight', key: 'Shift' },
   { code: 'ControlLeft', key: 'Ctrl' },
+  { code: 'MetaLeft', key: 'Win' },
   { code: 'AltLeft', key: 'Alt' },
   { code: 'Space', key: '' },
   { code: 'AltRight', key: 'Alt' },
-  { code: 'ControlRight', key: 'Ctrl' },
   { code: 'ArrowRight', key: '←' },
   { code: 'ArrowDown', key: '↓' },
   { code: 'ArrowLeft', key: '→' },
+  { code: 'ControlRight', key: 'Ctrl' },
 ];
 
 const keyboardKeysRu = [
@@ -134,19 +135,20 @@ const keyboardKeysRu = [
   { code: 'ArrowUp', key: '↑' },
   { code: 'ShiftRight', key: 'Shift' },
   { code: 'ControlLeft', key: 'Ctrl' },
+  { code: 'MetaLeft', key: 'Win' },
   { code: 'AltLeft', key: 'Alt' },
   { code: 'Space', key: '' },
   { code: 'AltRight', key: 'Alt' },
-  { code: 'ControlRight', key: 'Ctrl' },
   { code: 'ArrowRight', key: '←' },
   { code: 'ArrowDown', key: '↓' },
   { code: 'ArrowLeft', key: '→' },
+  { code: 'ControlRight', key: 'Ctrl' },
 ];
 
 const lineBreaks = ['Backspace', 'Delete', 'Enter', 'ShiftRight'];
 const specialKey = ['Backspace', 'Delete', 'Enter', 'ShiftRight', 'ShiftLeft', 'Tab',
   'Escape', 'CapsLock', 'ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft',
-  'ControlLeft', 'ControlRight', 'AltLeft', 'AltRight'];
+  'ControlLeft', 'ControlRight', 'AltLeft', 'AltRight', 'MetaLeft'];
 let isCapsPressed = false;
 let isShiftPressed = false;
 let isCtrlPressed = false;
@@ -319,3 +321,13 @@ document.addEventListener('keyup', (event) => {
     keyElement.classList.toggle('highlight');
   }
 });
+
+const p1 = document.createElement('p');
+p1.className = 'p';
+p1.textContent = 'The keyboard is designed for the Windows';
+document.body.appendChild(p1);
+
+const p2 = document.createElement('p');
+p2.className = 'p';
+p2.textContent = 'Switching keyboard layouts between English and another language is not implemented';
+document.body.appendChild(p2);
