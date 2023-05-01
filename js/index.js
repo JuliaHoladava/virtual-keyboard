@@ -12,7 +12,6 @@ keyboard.className = 'keyboard__container';
 document.body.appendChild(keyboard);
 
 const keyboardKeysEn = [
-  // { code: 'Escape', key: 'Esc' },
   { code: 'Backquote', key: '`' },
   { code: 'Digit1', key: '1' },
   { code: 'Digit2', key: '2' },
@@ -68,7 +67,7 @@ const keyboardKeysEn = [
   { code: 'Slash', key: '/' },
   { code: 'ArrowUp', key: '↑' },
   { code: 'ShiftRight', key: 'Shift' },
-  { code: 'ControlLeft', key: 'Ctrl'},
+  { code: 'ControlLeft', key: 'Ctrl' },
   { code: 'AltLeft', key: 'Alt' },
   { code: 'Space', key: '' },
   { code: 'AltRight', key: 'Alt' },
@@ -79,7 +78,6 @@ const keyboardKeysEn = [
 ];
 
 const keyboardKeysRu = [
-  { code: 'Escape', key: 'Esc' },
   { code: 'Backquote', key: 'ё' },
   { code: 'Digit1', key: '1' },
   { code: 'Digit2', key: '2' },
@@ -135,7 +133,7 @@ const keyboardKeysRu = [
   { code: 'Slash', key: '.' },
   { code: 'ArrowUp', key: '↑' },
   { code: 'ShiftRight', key: 'Shift' },
-  { code: 'ControlLeft', key: 'Ctrl'},
+  { code: 'ControlLeft', key: 'Ctrl' },
   { code: 'AltLeft', key: 'Alt' },
   { code: 'Space', key: '' },
   { code: 'AltRight', key: 'Alt' },
@@ -147,149 +145,177 @@ const keyboardKeysRu = [
 
 const lineBreaks = ['Backspace', 'Delete', 'Enter', 'ShiftRight'];
 const specialKey = ['Backspace', 'Delete', 'Enter', 'ShiftRight', 'ShiftLeft', 'Tab',
-                    'Escape', 'CapsLock', 'ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft',
-                    'ControlLeft', 'ControlRight', 'AltLeft', 'AltRight'];
+  'Escape', 'CapsLock', 'ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft',
+  'ControlLeft', 'ControlRight', 'AltLeft', 'AltRight'];
 let isCapsPressed = false;
 let isShiftPressed = false;
+let isCtrlPressed = false;
+let choosedLanguage = keyboardKeysEn;
 
-keyboardKeysEn.forEach(key => {
-  const keyElement = document.createElement('button');
-  const addBreak = lineBreaks.includes(key.code);
+const printToInput = (char) => {
+  textarea.value += char;
+};
 
-  keyElement.classList.add('keyboard__key');
-  keyElement.textContent = key.key;
-  keyElement.dataset.code = key.code;
+const printToUpperInput = (char) => {
+  textarea.value += char.toUpperCase();
+};
 
-  switch(key.code) {
-    case 'Backspace':
-      keyElement.classList.add('keyboard__key_long');
+const delToInput = () => {
+  const { value } = textarea;
+  textarea.value = value.substring(0, value.length - 1);
+};
 
-      keyElement.addEventListener('click', () => {
-        delToInput();
-      })
-      break;
+const toggleShift = () => {
+  isShiftPressed = false;
+  keyboard.querySelector('button[data-code=ShiftLeft]').classList.toggle('highlight');
+  keyboard.querySelector('button[data-code=ShiftRight]').classList.toggle('highlight');
+};
 
-    case 'Tab':
-      keyElement.addEventListener('click', () => {
-        printToInput('\t');
-      })
-      break;
+const createKeyboard = () => {
+  choosedLanguage.forEach((key) => {
+    const keyElement = document.createElement('button');
+    const addBreak = lineBreaks.includes(key.code);
 
-    case 'CapsLock':
-      keyElement.classList.add('keyboard__key_long');
+    keyElement.classList.add('keyboard__key');
+    keyElement.textContent = key.key;
+    keyElement.dataset.code = key.code;
 
-      keyElement.addEventListener('click', () => {
-        if (!isCapsPressed) {
-          isCapsPressed = true;
-        } else {
-          isCapsPressed = false;
-        }
+    switch (key.code) {
+      case 'Backspace':
+        keyElement.classList.add('keyboard__key_long');
 
-        keyElement.classList.toggle('highlight');
-      })
-      break;
+        keyElement.addEventListener('click', () => {
+          delToInput();
+        });
+        break;
 
-    case 'Space':
-      keyElement.classList.add('keyboard__key_super-long');
+      case 'Tab':
+        keyElement.addEventListener('click', () => {
+          printToInput('\t');
+        });
+        break;
 
-      keyElement.addEventListener('click', () => {
-        printToInput(' ');
-      })
-      break;
+      case 'CapsLock':
+        keyElement.classList.add('keyboard__key_long');
 
-    case 'Enter':
-      keyElement.classList.add('keyboard__key_long');
-
-      keyElement.addEventListener('click', () => {
-        printToInput('\n');
-      })
-      break;
-
-    case 'ShiftLeft':
-      keyElement.classList.add('keyboard__key_long');
-
-      keyElement.addEventListener('click', () => {
-        isShiftPressed = true;
-
-        keyElement.classList.toggle('highlight');
-        keyboard.querySelector(`button[data-code=ShiftRight]`).classList.toggle('highlight');
-      })
-      break;
-
-    case 'ShiftRight':
-      keyElement.classList.add('keyboard__key_long');
-
-      keyElement.addEventListener('click', () => {
-        isShiftPressed = true;
-
-        keyElement.classList.toggle('highlight');
-        keyboard.querySelector(`button[data-code=ShiftLeft]`).classList.toggle('highlight');
-      })
-      break;
-
-    default:
-      keyElement.addEventListener('click', (e) => {
-        if (!specialKey.includes(key.code)) {
-          if (isCapsPressed) {
-            if (isShiftPressed) {
-              printToInput(key.key);
-              toggleShift();
-            } else {
-              printToUpperInput(key.key);
-            }
+        keyElement.addEventListener('click', () => {
+          if (!isCapsPressed) {
+            isCapsPressed = true;
           } else {
-            if (isShiftPressed) {
+            isCapsPressed = false;
+          }
+
+          keyElement.classList.toggle('highlight');
+        });
+        break;
+
+      case 'Space':
+        keyElement.classList.add('keyboard__key_super-long');
+
+        keyElement.addEventListener('click', () => {
+          printToInput(' ');
+        });
+        break;
+
+      case 'Enter':
+        keyElement.classList.add('keyboard__key_long');
+
+        keyElement.addEventListener('click', () => {
+          printToInput('\n');
+        });
+        break;
+
+      case 'ShiftLeft':
+        keyElement.classList.add('keyboard__key_long');
+
+        keyElement.addEventListener('click', () => {
+          isShiftPressed = true;
+
+          keyElement.classList.toggle('highlight');
+          keyboard.querySelector('button[data-code=ShiftRight]').classList.toggle('highlight');
+        });
+        break;
+
+      case 'ShiftRight':
+        keyElement.classList.add('keyboard__key_long');
+
+        keyElement.addEventListener('click', () => {
+          isShiftPressed = true;
+
+          keyElement.classList.toggle('highlight');
+          keyboard.querySelector('button[data-code=ShiftLeft]').classList.toggle('highlight');
+        });
+        break;
+
+      case 'ControlLeft':
+        keyElement.addEventListener('click', () => {
+          isCtrlPressed = true;
+
+          keyElement.classList.toggle('highlight');
+        });
+        break;
+
+      case 'AltLeft':
+        keyElement.addEventListener('click', () => {
+          if (isCtrlPressed) {
+            if (choosedLanguage === keyboardKeysEn) {
+              choosedLanguage = keyboardKeysRu;
+            } else {
+              choosedLanguage = keyboardKeysEn;
+            }
+          }
+          isCtrlPressed = true;
+
+          keyElement.classList.toggle('highlight');
+        });
+        break;
+
+      default:
+        keyElement.addEventListener('click', () => {
+          if (!specialKey.includes(key.code)) {
+            if (isCapsPressed) {
+              if (isShiftPressed) {
+                printToInput(key.key);
+                toggleShift();
+              } else {
+                printToUpperInput(key.key);
+              }
+            } else if (isShiftPressed) {
               printToUpperInput(key.key);
               toggleShift();
             } else {
               printToInput(key.key);
             }
           }
-        }
-      })
-  }
+        });
+    }
 
-  keyboard.appendChild(keyElement);
+    keyboard.appendChild(keyElement);
 
-  if (addBreak) {
-    keyboard.appendChild(document.createElement('br'));
-  }
-});
+    if (addBreak) {
+      keyboard.appendChild(document.createElement('br'));
+    }
+  });
+};
+
+createKeyboard();
 
 document.addEventListener('keydown', (event) => {
-  const keyElement = keyboard.querySelector(`button[data-code="${event.code}"]`);
+  const keyElement = keyboard.querySelector(`button[data-code='${event.code}']`);
 
   if (keyElement) {
     keyElement.classList.add('highlight');
   }
 
-  if (!specialKey.includes(event.code))
+  if (!specialKey.includes(event.code)) {
     printToInput(event.key);
+  }
 });
 
 document.addEventListener('keyup', (event) => {
-  const keyElement = keyboard.querySelector(`button[data-code="${event.code}"]`);
+  const keyElement = keyboard.querySelector(`button[data-code='${event.code}']`);
 
   if (keyElement) {
     keyElement.classList.toggle('highlight');
   }
 });
-
-const printToInput = (char) => {
-  textarea.value += char;
-}
-
-const printToUpperInput = (char) => {
-  textarea.value += char.toUpperCase();
-}
-
-const delToInput = () => {
-  const value = textarea.value;
-  textarea.value = value.substring(0, value.length - 1);
-}
-
-const toggleShift = () => {
-  isShiftPressed = false;
-  keyboard.querySelector(`button[data-code=ShiftLeft]`).classList.toggle('highlight');
-  keyboard.querySelector(`button[data-code=ShiftRight]`).classList.toggle('highlight');
-}
