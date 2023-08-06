@@ -1,6 +1,6 @@
 const heading = document.createElement('h1');
 heading.className = 'heading';
-heading.textContent = 'Virtual Keyboard';
+heading.textContent = 'Virtual Keyboard by RSSchool';
 document.body.appendChild(heading);
 
 const textarea = document.createElement('textarea');
